@@ -5,7 +5,7 @@
  * @Last Modified time: 2019-07-21 18:53:42
  */
 export interface TreeNode {
-  children?: Array<TreeNode>;
+  children?: Array<this>;
   name: string;
   expand?: boolean;
 }

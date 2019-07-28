@@ -1,6 +1,6 @@
 {
   "name": "@saber2pr/rc-tree",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "a tree-select renderer for react.",
   "scripts": {
     "start": "webpack -w",
@@ -16,7 +16,8 @@
     "lib/components/*",
     "lib/iconfont/*",
     "lib/tree/*",
-    "lib/index.*"
+    "lib/index.*",
+    "lib/type/*"
   ],
   "main": "./lib/index.js",
   "devDependencies": {

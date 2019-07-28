@@ -27,6 +27,7 @@ export function Tree<T extends TreeNode>({
         <Tree from={node} map={render} depth={depth + 1} />
       </li>
     ));
+    if (depth === 0) return <>{childNodes}</>;
     return (
       <Ul node={root} render={render} index={depth}>
         {childNodes}

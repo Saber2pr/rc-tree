@@ -97,7 +97,7 @@ ReactDOM.render(
   <Tree
     from={data}
     map={(node, depth) => (
-      <a href="#" style={{ color: depth > 1 ? "red" : "green" }}>
+      <a href={"#" + node.path} style={{ color: depth > 1 ? "red" : "green" }}>
         {node.name}
       </a>
     )}

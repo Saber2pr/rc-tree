@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-07-21 18:41:06
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-07-21 20:16:57
+ * @Last Modified time: 2019-07-30 19:21:17
  */
 import React from "react";
 import { Ul } from "../ul";
@@ -21,19 +21,23 @@ export function Tree<T extends TreeNode>({
   depth = 0
 }: Tree<T>): JSX.Element {
   const children = root.children;
-  if (children) {
-    const childNodes = children.map((node, key) => (
-      <li className="Tree-Li" key={key}>
-        <Tree from={node} map={render} depth={depth + 1} />
-      </li>
-    ));
-    if (depth === 0) return <>{childNodes}</>;
-    return (
-      <Ul node={root} render={render} index={depth}>
-        {childNodes}
-      </Ul>
-    );
-  } else {
-    return render(root, depth);
-  }
+  if (root)
+    if (children) {
+      const childNodes = children.map((node, key) => (
+        <li className="Tree-Li" key={key}>
+          <Tree from={node} map={render} depth={depth + 1} />
+        </li>
+      ));
+      if (depth === 0) return <>{childNodes}</>;
+      if (root.path) {
+        root.expand = location.hash.slice(1).startsWith(root.path);
+      }
+      return (
+        <Ul node={root} render={render} index={depth}>
+          {childNodes}
+        </Ul>
+      );
+    } else {
+      return render(root, depth);
+    }
 }

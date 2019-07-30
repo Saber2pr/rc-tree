@@ -8,6 +8,7 @@ import React from "react";
 import { Ul } from "../ul";
 import { TreeNode } from "../../type";
 import "./style.less";
+import { getHash } from "../../utils";
 
 export interface Tree<T extends TreeNode> {
   from: T;
@@ -30,7 +31,7 @@ export function Tree<T extends TreeNode>({
       ));
       if (depth === 0) return <>{childNodes}</>;
       if (root.path) {
-        root.expand = location.hash.slice(1).startsWith(root.path);
+        root.expand = getHash().startsWith(root.path);
       }
       return (
         <Ul node={root} render={render} index={depth}>

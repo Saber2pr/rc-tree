@@ -2,21 +2,21 @@
  * @Author: saber2pr
  * @Date: 2019-07-21 18:41:09
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-07-30 19:09:26
+ * @Last Modified time: 2019-11-18 13:31:38
  */
-import React, { useState } from "react";
-import { TreeNode } from "../../type";
-import { Icon } from "../../iconfont";
-import "./style.less";
+import React, { useState } from "react"
+import { TreeNode } from "../../type"
+import "./style.less"
 
 export interface Ul<T extends TreeNode>
   extends React.DetailedHTMLProps<
     React.HTMLAttributes<HTMLUListElement>,
     HTMLUListElement
   > {
-  node: T;
-  index?: number;
-  render: (node: T, index: number) => JSX.Element;
+  node: T
+  index?: number
+  render: (node: T, index: number) => JSX.Element
+  selectBtn?(isActive: boolean): JSX.Element
 }
 
 export function Ul<T extends TreeNode>({
@@ -24,15 +24,16 @@ export function Ul<T extends TreeNode>({
   node,
   index = 0,
   render,
+  selectBtn = isActive => <span>{isActive ? "X" : "O"}</span>,
   ...props
 }: Ul<T>) {
-  const [state, setState] = useState(!!node.expand);
-  node.expand = state;
-  const change = () => setState(!state);
+  const [state, setState] = useState(!!node.expand)
+  node.expand = state
+  const change = () => setState(!state)
   return (
     <>
       <span className="Ul-Btn" onClick={change}>
-        {state ? <Icon.Xia /> : <Icon.You />}
+        {selectBtn(state)}
       </span>
       <span className="Ul-Name" onClick={change}>
         {render(node, index)}
@@ -41,5 +42,5 @@ export function Ul<T extends TreeNode>({
         {state ? children : <></>}
       </ul>
     </>
-  );
+  )
 }

@@ -1,6 +1,6 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import Tree from "./index";
+import React from "react"
+import ReactDOM from "react-dom"
+import Tree from "./index"
 
 const data = {
   path: "root",
@@ -91,8 +91,8 @@ const data = {
       text: "test\n"
     }
   ]
-};
-(React.Fragment as any) = "a";
+}
+;(React.Fragment as any) = "a"
 ReactDOM.render(
   <Tree
     from={data}
@@ -101,6 +101,17 @@ ReactDOM.render(
         {node.name}
       </a>
     )}
+    selectBtn={isAct => (
+      <span
+        style={{
+          display: "inline-block",
+          transform: `rotate(${isAct ? "90deg" : "0deg"})`,
+          transition: "transform 0.5s ease"
+        }}
+      >
+        >
+      </span>
+    )}
   />,
   document.getElementById("root")
-);
+)

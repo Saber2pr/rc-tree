@@ -35,7 +35,10 @@ export function Ul<T extends TreeNode>({
       <span className="Ul-Btn" onClick={change}>
         {selectBtn(state)}
       </span>
-      <span className="Ul-Name" onClick={change}>
+      <span
+        className={`Ul-Name${state ? " Ul-Name-Active" : ""}`}
+        onClick={change}
+      >
         {render(node, index)}
       </span>
       <ul className="Ul" {...props}>

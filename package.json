@@ -5,6 +5,7 @@
   "scripts": {
     "start": "webpack -w",
     "dev": "webpack-dev-server",
+    "prepublishOnly": "yarn build",
     "build": "tsc && move src lib .tsx"
   },
   "repository": {

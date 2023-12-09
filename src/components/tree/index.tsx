@@ -15,12 +15,14 @@ export interface Tree<T extends TreeNode> {
   map: (node: T, depth: number) => JSX.Element
   depth?: number
   selectBtn?: Ul<T>["selectBtn"]
+  useBrowserHistory?: boolean
 }
 
 export function Tree<T extends TreeNode>({
   from: root,
   map: render,
   depth = 0,
+  useBrowserHistory,
   selectBtn
 }: Tree<T>): JSX.Element {
   const children = root.children
@@ -38,7 +40,11 @@ export function Tree<T extends TreeNode>({
       ))
       if (depth === 0) return <>{childNodes}</>
       if (root.path) {
-        root.expand = getHash().startsWith(root.path)
+        if(useBrowserHistory) {
+          root.expand = window.location.pathname.startsWith(root.path)
+        } else {
+          root.expand = getHash().startsWith(root.path)
+        }
       }
       return (
         <Ul node={root} render={render} index={depth} selectBtn={selectBtn}>

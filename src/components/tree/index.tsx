@@ -35,13 +35,16 @@ export function Tree<T extends TreeNode>({
             map={render}
             depth={depth + 1}
             selectBtn={selectBtn}
+            useBrowserHistory={useBrowserHistory}
           />
         </li>
       ))
       if (depth === 0) return <>{childNodes}</>
       if (root.path) {
         if(useBrowserHistory) {
-          root.expand = window.location.pathname.startsWith(root.path)
+          const pathname = window.location.pathname.replace(/^\//, '')
+          const curPath = root.path.replace(/^\//, '')
+          root.expand = pathname.startsWith(curPath)
         } else {
           root.expand = getHash().startsWith(root.path)
         }

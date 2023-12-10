@@ -24,7 +24,7 @@ export function Tree<T extends TreeNode>({
   map: render,
   depth = 0,
   useBrowserHistory,
-  basename,
+  basename = '',
   selectBtn
 }: Tree<T>): JSX.Element {
   const children = root.children

@@ -16,6 +16,7 @@ export interface Tree<T extends TreeNode> {
   depth?: number
   selectBtn?: Ul<T>["selectBtn"]
   useBrowserHistory?: boolean
+  isServer?: boolean
   basename?: string
 }
 
@@ -25,6 +26,7 @@ export function Tree<T extends TreeNode>({
   depth = 0,
   useBrowserHistory,
   basename = '',
+  isServer,
   selectBtn
 }: Tree<T>): JSX.Element {
   const children = root.children
@@ -38,20 +40,26 @@ export function Tree<T extends TreeNode>({
             depth={depth + 1}
             selectBtn={selectBtn}
             useBrowserHistory={useBrowserHistory}
+            isServer={isServer}
             basename={basename}
           />
         </li>
       ))
       if (depth === 0) return <>{childNodes}</>
-      if (root.path) {
-        if(useBrowserHistory) {
-          const pathname = decodeURIComponent(window.location.pathname.replace(/^\//, ''))
-          const curPath = decodeURIComponent(`${basename}${root.path}`.replace(/^\//, ''))
-          root.expand = pathname.startsWith(curPath)
-        } else {
-          root.expand = getHash().startsWith(root.path)
+      if(isServer) {
+        root.expand = true
+      } else {
+        if (root.path) {
+          if(useBrowserHistory) {
+            const pathname = decodeURIComponent(window.location.pathname.replace(/^\//, ''))
+            const curPath = decodeURIComponent(`${basename}${root.path}`.replace(/^\//, ''))
+            root.expand = pathname.startsWith(curPath)
+          } else {
+            root.expand = getHash().startsWith(root.path)
+          }
         }
       }
+
       return (
         <Ul node={root} render={render} index={depth} selectBtn={selectBtn}>
           {childNodes}

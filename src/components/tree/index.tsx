@@ -42,8 +42,8 @@ export function Tree<T extends TreeNode>({
       if (depth === 0) return <>{childNodes}</>
       if (root.path) {
         if(useBrowserHistory) {
-          const pathname = window.location.pathname.replace(/^\//, '')
-          const curPath = root.path.replace(/^\//, '')
+          const pathname = decodeURIComponent(window.location.pathname.replace(/^\//, ''))
+          const curPath = decodeURIComponent(root.path.replace(/^\//, ''))
           root.expand = pathname.startsWith(curPath)
         } else {
           root.expand = getHash().startsWith(root.path)

@@ -16,6 +16,7 @@ export interface Tree<T extends TreeNode> {
   depth?: number
   selectBtn?: Ul<T>["selectBtn"]
   useBrowserHistory?: boolean
+  basename?: string
 }
 
 export function Tree<T extends TreeNode>({
@@ -23,6 +24,7 @@ export function Tree<T extends TreeNode>({
   map: render,
   depth = 0,
   useBrowserHistory,
+  basename,
   selectBtn
 }: Tree<T>): JSX.Element {
   const children = root.children
@@ -36,6 +38,7 @@ export function Tree<T extends TreeNode>({
             depth={depth + 1}
             selectBtn={selectBtn}
             useBrowserHistory={useBrowserHistory}
+            basename={basename}
           />
         </li>
       ))
@@ -43,7 +46,7 @@ export function Tree<T extends TreeNode>({
       if (root.path) {
         if(useBrowserHistory) {
           const pathname = decodeURIComponent(window.location.pathname.replace(/^\//, ''))
-          const curPath = decodeURIComponent(root.path.replace(/^\//, ''))
+          const curPath = decodeURIComponent(`${basename}${root.path}`.replace(/^\//, ''))
           root.expand = pathname.startsWith(curPath)
         } else {
           root.expand = getHash().startsWith(root.path)

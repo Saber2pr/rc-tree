@@ -15,18 +15,18 @@ export interface Tree<T extends TreeNode> {
   map: (node: T, depth: number) => JSX.Element
   depth?: number
   selectBtn?: Ul<T>["selectBtn"]
-  useBrowserHistory?: boolean
-  isServer?: boolean
-  basename?: string
+}
+
+declare global {
+  interface Window {
+    __expandDirs: string[]
+  }
 }
 
 export function Tree<T extends TreeNode>({
   from: root,
   map: render,
   depth = 0,
-  useBrowserHistory,
-  basename = '',
-  isServer,
   selectBtn
 }: Tree<T>): JSX.Element {
   const children = root.children
@@ -39,24 +39,16 @@ export function Tree<T extends TreeNode>({
             map={render}
             depth={depth + 1}
             selectBtn={selectBtn}
-            useBrowserHistory={useBrowserHistory}
-            isServer={isServer}
-            basename={basename}
           />
         </li>
       ))
       if (depth === 0) return <>{childNodes}</>
-      if(isServer) {
-        root.expand = true
-      } else {
-        if (root.path) {
-          if(useBrowserHistory) {
-            const pathname = decodeURIComponent(window.location.pathname.replace(/^\//, ''))
-            const curPath = decodeURIComponent(`${basename}${root.path}`.replace(/^\//, ''))
-            root.expand = pathname.startsWith(curPath)
-          } else {
-            root.expand = getHash().startsWith(root.path)
-          }
+      
+      if (root.path) {
+        if(Array.isArray(window.__expandDirs)) {
+          root.expand = window.__expandDirs.includes(root.path)
+        } else {
+          root.expand = getHash().startsWith(root.path)
         }
       }
 

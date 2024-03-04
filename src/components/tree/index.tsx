@@ -41,6 +41,7 @@ export function Tree<T extends TreeNode>({
             map={render}
             depth={depth + 1}
             selectBtn={selectBtn}
+            expandAll={expandAll}
           />
         </li>
       ))

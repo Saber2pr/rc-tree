@@ -15,6 +15,7 @@ export interface Tree<T extends TreeNode> {
   map: (node: T, depth: number) => JSX.Element
   depth?: number
   selectBtn?: Ul<T>["selectBtn"]
+  expandAll?: boolean
 }
 
 declare global {
@@ -27,7 +28,8 @@ export function Tree<T extends TreeNode>({
   from: root,
   map: render,
   depth = 0,
-  selectBtn
+  selectBtn,
+  expandAll
 }: Tree<T>): JSX.Element {
   const children = root.children
   if (root)
@@ -44,11 +46,15 @@ export function Tree<T extends TreeNode>({
       ))
       if (depth === 0) return <>{childNodes}</>
       
-      if (root.path) {
-        if(Array.isArray(window.__expandDirs)) {
-          root.expand = window.__expandDirs.includes(root.path)
-        } else {
-          root.expand = getHash().startsWith(root.path)
+      if(expandAll) {
+        root.expand = true
+      } else {
+        if (root.path) {
+          if(Array.isArray(window.__expandDirs)) {
+            root.expand = window.__expandDirs.includes(root.path)
+          } else {
+            root.expand = getHash().startsWith(root.path)
+          }
         }
       }
 
